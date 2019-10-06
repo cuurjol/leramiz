@@ -10,10 +10,14 @@ jQuery(document).on('turbolinks:load', function() {
 
   return $(document).on('keypress', '#message_body', function(event) {
     const message = event.target.value;
-    if ((event.keyCode === 13) && (message !== '')) {
-      App.room.speak(message);
-      event.target.value = "";
-      return event.preventDefault();
+    if (event.keyCode === 13) {
+      if (message.trim() !== '') {
+        App.room.speak(message);
+        event.target.value = "";
+        return event.preventDefault();
+      } else {
+        return event.preventDefault();
+      }
     }
   });
 });
