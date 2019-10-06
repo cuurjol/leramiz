@@ -136,6 +136,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
+    redis (4.1.2)
     rubocop (0.72.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -210,6 +211,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 3.11)
   rails (~> 5.2.3)
+  redis
   rubocop
   sass-rails (~> 5.0)
   spring
