@@ -2,7 +2,9 @@
 
 <h1>Rooms</h1>
 
-<div class="text-success" id="all-online-users"></div>
+<div class="text-success" id="all-online-users">
+  Online: <%= online_users %>
+</div>
 
 <ul class="mt-4 list-unstyled">
   <%= render(@rooms) %>
