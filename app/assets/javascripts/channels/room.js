@@ -3,16 +3,11 @@
 
 let createRoomChannel = function(roomId) {
   return App.room = App.cable.subscriptions.create({channel: "RoomChannel", roomId}, {
-    connected() {
-      return console.log('Connected to RoomChannel');
-    },
+    connected() {},
 
-    disconnected() {
-      return console.log('Disconnected from RoomChannel');
-    },
+    disconnected() {},
 
     received(data) {
-      console.log('Received message: ' + data['message']);
       $('#messages').append(data['message']);
 
       return scroll_bottom();
