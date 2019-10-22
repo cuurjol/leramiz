@@ -1,6 +1,6 @@
-class AppearanceChannel < ApplicationCable::Channel
+class AppearanceOnlineUserChannel < ApplicationCable::Channel
   def subscribed
-    stream_from 'appearance_channel'
+    stream_from 'appearance_online_user_channel'
     broadcast_online_users(true)
   end
 
@@ -12,6 +12,6 @@ class AppearanceChannel < ApplicationCable::Channel
 
   def broadcast_online_users(online)
     current_user.update_attribute(:online, online)
-    ActionCable.server.broadcast('appearance_channel', users: User.online.as_json(only: :nickname))
+    ActionCable.server.broadcast('appearance_online_user_channel', users: User.online.as_json(only: :nickname))
   end
 end
