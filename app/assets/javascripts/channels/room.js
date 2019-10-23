@@ -28,6 +28,12 @@ jQuery(document).on('turbolinks:load', function() {
 
   if (messages.length > 0) {
     createRoomChannel(messages.data('room-id'));
+  } else if (App.room) {
+    // https://stackoverflow.com/questions/39541259/rails-actioncable-turbolinks-chat-issue-posting-duplicate-messages
+    // https://stackoverflow.com/questions/40495351/how-to-close-connection-in-action-cable
+    // https://stackoverflow.com/questions/39017691/actioncable-unsubscribe-callback-not-working-when-ios-client-send-unsubscribe/44933949
+    // App.cable.subscriptions.remove(App.room);
+    App.room.unsubscribe();
   }
 
   return $(document).on('keypress', '#message_body', function(event) {
