@@ -2,8 +2,8 @@
   <%= form_tag do |f| %>
     <div class="form-group">
       <div class="input-group">
-        <%= text_field_tag :message_body, '', class: 'form-control',
-                           placeholder: 'Enter message' %>
+        <%= text_area_tag :message_body, '', class: 'form-control',
+                           placeholder: "Enter - send message\nCtrl+Enter or Shift+Enter - new line" %>
       </div>
     </div>
   <% end %>

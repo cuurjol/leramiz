@@ -16,5 +16,11 @@
   .message {
     margin-left: 0;
     margin-right: 0;
+
+    &-body {
+      width: 85%;
+      white-space: pre-line;
+    }
   }
 }
+
