@@ -1,1 +1,5 @@
 <li><b>Room #<%= room.id %></b> — <%= link_to('Join', room) %></li>
+
+<div class="text-danger room-users-list" data-room-id="<%= room.id %>">
+  <%= room_users(room) %>
+</div>

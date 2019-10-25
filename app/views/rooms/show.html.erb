@@ -1,5 +1,9 @@
 <h1>Room <%= @room.id %></h1>
 
+<div class="text-danger room-users-list" data-room-id="<%= @room.id %>">
+  <%= room_users(@room) %>
+</div>
+
 <%= link_to('Leave', root_path) %>
 
 <p id="notice"><%= notice %></p>
