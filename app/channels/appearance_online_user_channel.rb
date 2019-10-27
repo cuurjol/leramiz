@@ -5,7 +5,8 @@ class AppearanceOnlineUserChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    broadcast_online_users(false)
+    connections_count = ActionCable.server.connections.select { |conn| conn.current_user == current_user }.count
+    broadcast_online_users(false) if connections_count.zero?
   end
 
   private

@@ -5,6 +5,9 @@ class RoomChannel < ApplicationCable::Channel
     stream_from("room_channel_#{@room.id}")
 
     @room.room_users.create(user: current_user)
+
+    return if @room.room_users.count > 1
+
     broadcast_room_users
 
     speak('message' => '* * * joined the room * * *')
@@ -12,6 +15,9 @@ class RoomChannel < ApplicationCable::Channel
 
   def unsubscribed
     @room.reload.room_users.find_by(user: current_user).destroy
+
+    return if @room.room_users.count.positive?
+
     broadcast_room_users
 
     speak('message' => '* * * left the room * * *')
@@ -24,7 +30,7 @@ class RoomChannel < ApplicationCable::Channel
   private
 
   def broadcast_room_users
-    room_users_list = [{ room_id: @room.id, users: @room.users.as_json(only: :nickname)}]
+    room_users_list = [{ room_id: @room.id, users: @room.users.distinct.as_json(only: :nickname)}]
     ActionCable.server.broadcast('room_users_list_channel', room_users_list: room_users_list)
   end
 end
