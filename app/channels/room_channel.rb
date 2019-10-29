@@ -6,7 +6,7 @@ class RoomChannel < ApplicationCable::Channel
 
     @room.room_users.create(user: current_user)
 
-    return if @room.room_users.count > 1
+    return if @room.room_users.where(user: current_user).count > 1
 
     broadcast_room_users
 
@@ -16,7 +16,7 @@ class RoomChannel < ApplicationCable::Channel
   def unsubscribed
     @room.reload.room_users.find_by(user: current_user).destroy
 
-    return if @room.room_users.count.positive?
+    return if @room.room_users.where(user: current_user).count.positive?
 
     broadcast_room_users
 
