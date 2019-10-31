@@ -10,9 +10,9 @@ class RoomUsersListChannel < ApplicationCable::Channel
   private
 
   def broadcast_room_users
-    room_users_list = []
-    rooms = Room.includes(:users).where(id: params[:roomIds])
-    rooms.each { |room| room_users_list << { room_id: room.id, users: room.users.distinct.as_json(only: :nickname) } }
+    room_users_list = Room.includes(:users).where(id: params[:roomIds]).map do |room|
+      { room_id: room.id, users: room.users.uniq.as_json(only: :nickname) }
+    end
 
     ActionCable.server.broadcast('room_users_list_channel', room_users_list: room_users_list)
   end

@@ -4,6 +4,6 @@ module ApplicationHelper
   end
 
   def room_users(room)
-    "Room users: #{room.users.distinct.map(&:nickname).join(', ')}" if room.users.present?
+    "Room users: #{room.users.uniq.map(&:nickname).join(', ')}" if room.users.present?
   end
 end
