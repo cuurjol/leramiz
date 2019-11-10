@@ -14,6 +14,9 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
+    # Проверка нужна здесь после того, как выполнится фоновая задача на удаление приватной комнаты
+    return if Room.find_by_id(@room).nil?
+
     @room.reload.room_users.find_by(user: current_user).destroy
 
     return if @room.room_users.where(user: current_user).count.positive?
@@ -30,7 +33,7 @@ class RoomChannel < ApplicationCable::Channel
   private
 
   def broadcast_room_users
-    room_users_list = [{ room_id: @room.id, users: @room.users.uniq.as_json(only: :nickname)}]
+    room_users_list = { room_id: @room.id, users: @room.users.uniq.as_json(only: :nickname) }
     ActionCable.server.broadcast('room_users_list_channel', room_users_list: room_users_list)
   end
 end

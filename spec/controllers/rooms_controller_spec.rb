@@ -33,6 +33,23 @@ RSpec.describe RoomsController, type: :controller do
     end
   end
 
+  describe '#new' do
+    context 'when form for creating a new room will be showed' do
+      before(:each) { get(:new) }
+
+      it 'assigns new room to @room' do
+        expect(assigns(:room)).to_not be_nil
+        expect(assigns(:room)).to be_a_new(Room).with(token: nil, expiration: nil, password: nil, is_private: false)
+      end
+
+      it 'returns new view' do
+        expect(response.status).to eq(200)
+        expect(response).to render_template(:new)
+        expect(response.body).to match('New Room')
+      end
+    end
+  end
+
   describe '#show' do
     context 'when existing room will be showed' do
       let(:room) { FactoryBot.create(:room, token: 'dc15461a15') }
@@ -64,13 +81,14 @@ RSpec.describe RoomsController, type: :controller do
   end
 
   describe '#create' do
-    context 'when new room will be created' do
-      it 'successfully creates new room' do
-        expect { post(:create) }.to change { Room.count }.from(0).to(1)
+    context 'when new public room will be created' do
+      it 'successfully creates new public room' do
+        expect { post(:create, params: { room: { is_private: false } }) }.to change { Room.count }.from(0).to(1)
+        expect(Room.last.is_private).to be_falsey
       end
 
       it 'redirects to show view' do
-        post(:create)
+        post(:create, params: { room: { is_private: false } })
         expect(response.status).to eq(302)
         expect(response).to redirect_to(Room.first)
         expect(flash[:notice]).to eq('Room was successfully created')

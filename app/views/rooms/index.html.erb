@@ -6,10 +6,26 @@
   <%= online_users %>
 </div>
 
-<ul class="mt-4 list-unstyled" id="rooms-list">
-  <%= render(@rooms) %>
-</ul>
+<div class="d-inline-flex mt-2">
+  <%= link_to('New room', new_room_path, method: :get, class: 'btn btn-primary') %>
+</div>
 
-<div class="mt-2">
-  <%= render('rooms/form', room: @room) %>
+<div class="row mt-4">
+  <% if @rooms.public_rooms.present? %>
+    <div class="col-md-6">
+      <h4>Public:</h4>
+      <ul class="list-unstyled" id="public-rooms-list">
+        <%= render(@rooms.public_rooms) %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if @rooms.private_rooms.present? %>
+    <div class="col-md-6">
+      <h4>Private:</h4>
+      <ul class="list-unstyled" id="private-rooms-list">
+        <%= render(@rooms.private_rooms) %>
+      </ul>
+    </div>
+  <% end %>
 </div>

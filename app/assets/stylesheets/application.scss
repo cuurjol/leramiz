@@ -5,3 +5,31 @@ textarea {
   resize: none;
   overflow-y: hidden;
 }
+
+input::-webkit-input-placeholder {
+  font-size: 14px;
+}
+
+input::-ms-input-placeholder {
+  font-size: 14px;
+}
+
+input:-ms-input-placeholder {
+  font-size: 14px;
+}
+
+input::-moz-placeholder {
+  font-size: 14px;
+}
+
+input:-moz-placeholder {
+  font-size: 14px;
+}
+
+.help-block {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #737373;
+  font-size: 14px;
+}
