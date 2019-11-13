@@ -4,6 +4,9 @@ Rails:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/AsciiComments:
+  Enabled: false
+
 Metrics/LineLength:
   Max: 120
   Exclude:
@@ -52,11 +55,14 @@ Layout/EmptyLinesAroundBlockBody:
 Metrics/BlockLength:
   Exclude:
     - 'db/schema.rb'
+    - 'spec/controllers/rooms_controller_spec.rb'
+    - 'spec/channels/appearance_online_user_channel_spec.rb'
 
 Style/ExpandPathArguments:
   Exclude:
     - 'bin/rails'
     - 'bin/rake'
+    - 'spec/rails_helper.rb'
 
 Style/WordArray:
   Exclude:
