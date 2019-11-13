@@ -57,7 +57,7 @@ class RoomsController < ApplicationController
 
     return true if @room.password_valid?(cookies.permanent["rooms_#{@room.id}_password"])
 
-    flash.now[:notice] = params[:password].present? ? 'Wrong password!' : 'Empty password!'
+    flash.now[:notice] = 'Wrong password!' if params[:password].present?
     render('password_form')
   end
 
