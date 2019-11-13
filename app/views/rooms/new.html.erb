@@ -8,11 +8,11 @@
       <%= simple_format('Room type', class: 'font-weight-bold mb-2') %>
       <div class="form-check form-check-inline">
         <%= form.radio_button :is_private, false, checked: true, class: 'form-check-input' %>
-        <%= form.label :private_false, 'Public', class: 'form-check-label' %>
+        <%= form.label :is_private_false, 'Public', class: 'form-check-label' %>
       </div>
       <div class="form-check form-check-inline">
         <%= form.radio_button :is_private, true, class: 'form-check-input' %>
-        <%= form.label :private_true, 'Private', class: 'form-check-label' %>
+        <%= form.label :is_private_true, 'Private', class: 'form-check-label' %>
       </div>
     </div>
 

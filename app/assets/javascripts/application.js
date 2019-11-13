@@ -6,8 +6,8 @@
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
-  let public_radio_button = $('#room_private_false');
-  let private_radio_button = $('#room_private_true');
+  let public_radio_button = $('#room_is_private_false');
+  let private_radio_button = $('#room_is_private_true');
   let room_expiration = $('#room_expiration');
   let room_password = $('#room_password');
 
