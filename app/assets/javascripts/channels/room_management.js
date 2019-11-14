@@ -4,28 +4,19 @@ App.room_management = App.cable.subscriptions.create("RoomManagementChannel", {
   disconnected: function() {},
 
   received: function(data) {
-    let private_rooms_list = $('#private-rooms-list');
-    let public_rooms_list = $('#public-rooms-list');
+    let is_private = data['room']['is_private'];
+    let rooms_list = is_private ? $('#private-rooms-list') : $('#public-rooms-list');
     let html_code;
 
-    if (data['room']['is_private'] && private_rooms_list.length === 0) {
+    if (rooms_list.length === 0) {
       html_code = `
         <div class="col-md-6">
-            <h4>Private:</h4>
-            <ul class="list-unstyled" id="private-rooms-list"></ul>
+            <h4>${is_private ? 'Private:' : 'Public:'}</h4>
+            <ul class="list-unstyled" id=${is_private ? "private-rooms-list" : "public-rooms-list"}></ul>
         </div>`;
-      $('div.row.mt-4').append(html_code);
-      private_rooms_list = $('#private-rooms-list');
-    }
 
-    if (!data['room']['is_private'] && public_rooms_list.length === 0) {
-      html_code = `
-        <div class="col-md-6">
-            <h4>Public:</h4>
-            <ul class="list-unstyled" id="public-rooms-list"></ul>
-        </div>`;
       $('div.row.mt-4').append(html_code);
-      public_rooms_list = $('#public-rooms-list');
+      rooms_list = $(rooms_list.selector);
     }
 
     if (data['status'] === 'created') {
@@ -35,13 +26,13 @@ App.room_management = App.cable.subscriptions.create("RoomManagementChannel", {
          </li>
          <div class="text-danger room-users-list" data-room-id="${data['room']['id']}"></div>`;
 
-      data['room']['is_private'] ? private_rooms_list.append(html_code) : public_rooms_list.append(html_code);
+      rooms_list.append(html_code);
     } else {
       $(`li[data-room-id='${data['room']['id']}']`).remove();
       $(`.room-users-list[data-room-id='${data['room']['id']}']`).remove();
 
-      if (private_rooms_list.children().length === 0) {
-        private_rooms_list.closest('.col-md-6').find('h4').remove();
+      if (rooms_list.children().length === 0) {
+        rooms_list.closest('.col-md-6').find('h4').remove();
       }
     }
   }
