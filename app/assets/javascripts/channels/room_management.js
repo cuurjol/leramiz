@@ -22,7 +22,7 @@ App.room_management = App.cable.subscriptions.create("RoomManagementChannel", {
     if (data['status'] === 'created') {
       html_code = `
         <li data-room-id="${data['room']['id']}">
-            <b>Room #${data['room']['id']}</b> — <a href="/rooms/${data['room']['token']}">Join</a>
+            <b>Room #${data['room']['id']}</b> — <a href="/rooms/${data['room']['token']}" data-turbolinks="false">Join</a>
          </li>
          <div class="text-danger room-users-list" data-room-id="${data['room']['id']}"></div>`;
 
