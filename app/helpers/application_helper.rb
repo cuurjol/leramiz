@@ -32,7 +32,8 @@ module ApplicationHelper
   # Метод вычисления оставшегося времени истечения приватной комнаты:
   # 1) room.expiration * 60 - время истечения приватной комнаты в секундах
   # 2) (Time.now - room.created_at) - разность между текущей датой и датой создании приватной комнаты в секундах
+  # 3) 1.5.seconds - время задержки для выполнения фоновой задачи по удалению всей информации о приватной комнате
   def remaining_expiration_time(room)
-    room.expiration * 60 - (Time.now - room.created_at)
+    room.expiration * 60 - (Time.now - room.created_at) + 1.5.seconds
   end
 end

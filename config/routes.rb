@@ -5,4 +5,5 @@ Rails.application.routes.draw do
     post :show, on: :member # POST запрос на странице проверки пароля для входа в приватную комнату
   end
   mount ActionCable.server => '/cable'
+  mount ResqueWeb::Engine => '/resque_web'
 end

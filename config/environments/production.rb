@@ -43,6 +43,9 @@ Rails.application.configure do
   config.action_cable.url = 'wss://cuurjol-leramiz.herokuapp.com/cable'
   config.action_cable.allowed_request_origins = %w[http://cuurjol-leramiz.herokuapp.com/cable https://cuurjol-leramiz.herokuapp.com/cable]
 
+  config.active_job.queue_adapter = :resque
+  config.active_job.queue_name_prefix = "leramiz_#{Rails.env}"
+
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
 
