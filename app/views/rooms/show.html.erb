@@ -1,12 +1,41 @@
+<p id="notice"><%= notice %></p>
+
 <h1>Room <%= @room.id %></h1>
+
+<div class="text-success">Created by: <%= @room.user.nickname %></div>
 
 <div class="text-danger room-users-list" data-room-id="<%= @room.id %>">
   <%= room_users(@room) %>
 </div>
 
-<%= link_to('Leave', root_path) %>
+<div class="mt-3 mb-3">
+  <%= link_to('Leave', root_path, class: 'btn btn-primary') %>
 
-<p id="notice"><%= notice %></p>
+  <% if @room.is_private? && @room.user == current_user %>
+    <% if @room.errors.present? %>
+      <%= button_tag('Hide password form', type: 'button', class: 'btn btn-danger', id: 'change-password-button') %>
+    <% else %>
+      <%= button_tag('Change password', type: 'button', class: 'btn btn-danger', id: 'change-password-button') %>
+    <% end %>
+  <% end %>
+</div>
+
+<%= form_for @room, method: :put, html: { class: "#{@room.errors.present? ? 'show-form' : 'hide-form'}" } do |form| %>
+  <%= form.label(:password, class: 'font-weight-bold') %>
+  <div class="form-row">
+    <div class="form-group col-md-8">
+      <%= form.password_field(:password, class: 'form-control', placeholder: 'Enter password') %>
+      <% if @room.errors.present? %>
+        <span class="help-block invalid-feedback"><em><%= @room.errors.full_messages.join(', ') %></em></span>
+      <% else %>
+        <span class="help-block"><em>Minimum 6 characters</em></span>
+      <% end %>
+    </div>
+    <div class="form-group col-md-4">
+      <%= form.submit('Update password', class: 'btn btn-success') %>
+    </div>
+  </div>
+<% end %>
 
 <div class="messages">
   <div class="messages-inner" id="messages" data-room-id="<%= @room.id %>">

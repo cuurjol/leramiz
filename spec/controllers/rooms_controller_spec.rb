@@ -12,7 +12,7 @@ RSpec.describe RoomsController, type: :controller do
 
   describe '#index' do
     context 'when list of rooms will be showed' do
-      before(:each) { FactoryBot.create_list(:room, 3) }
+      before(:each) { FactoryBot.create_list(:room, 3, user: user) }
       before(:each) { get(:index) }
 
       it 'returns list of rooms' do
@@ -52,7 +52,7 @@ RSpec.describe RoomsController, type: :controller do
 
   describe '#show' do
     context 'when existing room will be showed' do
-      let(:room) { FactoryBot.create(:room, token: 'dc15461a15') }
+      let(:room) { FactoryBot.create(:room, token: 'dc15461a15', user: user) }
 
       before(:each) do
         allow_any_instance_of(Room).to receive(:generate_token)
@@ -71,6 +71,7 @@ RSpec.describe RoomsController, type: :controller do
         expect(response.status).to eq(200)
         expect(response).to render_template(:show)
         expect(response.body).to match('Welcome to Leramiz, <b>Francisco</b>!')
+        expect(response.body).to match('Created by: Francisco')
         expect(response.body).to match('Room users: Francisco')
         expect(response.body).to match("Room #{Room.first.id}")
         expect(response.body).to match('Random message #1')
@@ -92,6 +93,39 @@ RSpec.describe RoomsController, type: :controller do
         expect(response.status).to eq(302)
         expect(response).to redirect_to(Room.first)
         expect(flash[:notice]).to eq('Room was successfully created')
+      end
+    end
+  end
+
+  describe '#update' do
+    let!(:room) { FactoryBot.create(:room, expiration: 5, is_private: true, password: 'qwerty') }
+
+    context 'when existing record will be updated' do
+      before(:each) { put(:update, params: { token: room.token, room: { password: '123456' } }) }
+
+      it 'updates record' do
+        expect(room.reload.password).to eq('123456')
+      end
+
+      it 'redirects to show view' do
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(room_path(room))
+        expect(flash[:notice]).to eq('Room password was successfully updated')
+      end
+    end
+
+    context 'when existing record will not be updated' do
+      before(:each) { put(:update, params: { token: room.token, room: { password: 'mouse' } }) }
+
+      it 'does not update record' do
+        expect(room.reload.password).to_not eq('mouse')
+      end
+
+      it 'renders show view' do
+        expect(response.status).to eq(200)
+        expect(response).to render_template(:show)
+        expect(response.body).to match("Room #{room.id}")
+        expect(response.body).to match('Password is too short \\(minimum is 6 characters\\)')
       end
     end
   end

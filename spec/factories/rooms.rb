@@ -4,5 +4,6 @@ FactoryBot.define do
     expiration { nil }
     password { nil }
     is_private { false }
+    association(:user)
   end
 end

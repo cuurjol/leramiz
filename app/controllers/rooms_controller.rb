@@ -17,18 +17,11 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.includes(messages: :user).find_by_token(params[:token])
-
-    # Для пользователя, который создаёт приватную комнаиу, сохраняем пароль в его куках
-    # Если пользователь хочет посетить приватную комнату, то ему предстоит ввести пароль от этой комнаты
-    if request.referer == new_room_url
-      cookies.permanent["rooms_#{@room.id}_password"] = @room.password
-    else
-      password_guard!
-    end
+    password_guard! if @room.is_private? && @room.user != current_user
   end
 
   def create
-    @room = Room.new(room_params)
+    @room = Room.new(room_params.merge(user: current_user))
 
     if @room.save
       DestroyPrivateRoomJob.set(wait: @room.expiration.minutes).perform_later(@room) if @room.is_private?
@@ -46,11 +39,19 @@ class RoomsController < ApplicationController
     @room = Room.new
   end
 
+  def update
+    @room = Room.find_by_token(params[:token])
+
+    if @room.update(room_params)
+      redirect_to(@room, notice: 'Room password was successfully updated')
+    else
+      render(:show)
+    end
+  end
+
   private
 
   def password_guard!
-    return true if @room.password.blank?
-
     if params[:password].present? && @room.password_valid?(params[:password])
       cookies.permanent["rooms_#{@room.id}_password"] = params[:password]
     end

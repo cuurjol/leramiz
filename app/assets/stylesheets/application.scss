@@ -29,7 +29,25 @@ input:-moz-placeholder {
 .help-block {
   display: block;
   margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   color: #737373;
   font-size: 14px;
+}
+
+.hide-form {
+  display: none;
+}
+
+.show-form {
+  display: block;
+}
+
+.field_with_errors .form-control {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  display: block;
+  margin-top: 0.25rem;
+  color: #dc3545;
 }

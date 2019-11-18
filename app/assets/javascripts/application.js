@@ -6,6 +6,15 @@
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
+  $('#change-password-button').click(function(){
+    $('.show-form, .hide-form').slideToggle(400, function () {
+      let btn = $('#change-password-button');
+      btn.text() === 'Change password' ? btn.text('Hide password form') : btn.text('Change password');
+    });
+
+    return false;
+  });
+
   let public_radio_button = $('#room_is_private_false');
   let private_radio_button = $('#room_is_private_true');
   let room_expiration = $('#room_expiration');
