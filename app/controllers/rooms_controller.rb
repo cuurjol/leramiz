@@ -1,15 +1,9 @@
 class RoomsController < ApplicationController
   def index
-    regexp = %r{(?<=rooms\/)\h{10}}
-    referer = request.referer
-
-    # Проверка предыдущего запроса после выполнения фоновой задачи на удаление приватной комнаты
-    # Условие 1: Пользователь открыл браузер и зашёл на сайт
-    # Условие 2: Корректное отображение сообщения после выполнения фоновой задачи на удаление приватной комнаты
-    if referer.nil?
-      flash.now[:notice] = ''
-    elsif referer != root_url && referer != new_room_url && Room.find_by_token(referer[regexp]).nil?
-      flash.now[:notice] = 'Room expiration time is over'
+    message = Rails.cache.read("message_for_user:#{current_user.id}")
+    unless message.nil?
+      flash.now[:notice] = message
+      Rails.cache.write("message_for_user:#{current_user.id}", nil)
     end
 
     @rooms = Room.includes(:users)

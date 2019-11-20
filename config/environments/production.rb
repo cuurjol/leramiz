@@ -43,9 +43,6 @@ Rails.application.configure do
   config.action_cable.url = 'wss://cuurjol-leramiz.herokuapp.com/cable'
   config.action_cable.allowed_request_origins = %w[http://cuurjol-leramiz.herokuapp.com/cable https://cuurjol-leramiz.herokuapp.com/cable]
 
-  config.active_job.queue_adapter = :resque
-  config.active_job.queue_name_prefix = "leramiz_#{Rails.env}"
-
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
 
@@ -57,11 +54,11 @@ Rails.application.configure do
   config.log_tags = [:request_id]
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  config.cache_store = :redis_cache_store, { url: ENV['REDISTOGO_URL'] }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
-  # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "leramiz_#{Rails.env}"
+  config.active_job.queue_adapter     = :resque
+  config.active_job.queue_name_prefix = "leramiz_#{Rails.env}"
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
