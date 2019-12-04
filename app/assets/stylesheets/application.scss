@@ -1,6 +1,10 @@
 @import "bootstrap";
 @import "messages";
 
+li {
+  margin-bottom: 5px;
+}
+
 textarea {
   resize: none;
   overflow-y: hidden;

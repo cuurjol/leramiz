@@ -23,8 +23,8 @@ App.room_management = App.cable.subscriptions.create("RoomManagementChannel", {
       html_code = `
         <li data-room-id="${data['room']['id']}">
             <b>Room #${data['room']['id']}</b> — <a href="/rooms/${data['room']['token']}" data-turbolinks="false">Join</a>
-         </li>
-         <div class="text-danger room-users-list" data-room-id="${data['room']['id']}"></div>`;
+            <div class="text-danger room-users-list" data-room-id="${data['room']['id']}"></div>
+         </li>`;
 
       rooms_list.append(html_code);
     } else {
@@ -32,7 +32,7 @@ App.room_management = App.cable.subscriptions.create("RoomManagementChannel", {
       $(`.room-users-list[data-room-id='${data['room']['id']}']`).remove();
 
       if (rooms_list.children().length === 0) {
-        rooms_list.closest('.col-md-6').find('h4').remove();
+        rooms_list.closest('.col-md-6').remove();
       }
     }
   }

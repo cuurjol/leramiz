@@ -3,6 +3,19 @@ module ApplicationHelper
     "Online: #{User.online.map(&:nickname).join(', ')}"
   end
 
+  def room_item_list(room)
+    link = link_to('Join', room, data: { turbolinks: false })
+    if room.users.present?
+      room_users = content_tag(:div, room_users(room), class: 'text-danger room-users-list',
+                                                       data: { 'room-id': room.id })
+    end
+
+    <<~HTML.html_safe
+      <b>Room ##{room.id}</b> — #{link}
+      #{room_users}
+    HTML
+  end
+
   def room_users(room)
     "Room users: #{room.users.uniq.map(&:nickname).join(', ')}"
   end
