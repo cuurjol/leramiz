@@ -12,12 +12,12 @@ namespace :resque do
       if Process.fork
         sh('rake environment resque:work')
       else
-        sh('rake resque:scheduler')
+        sh('rake environment resque:scheduler')
         Process.wait
       end
     else # windows
       pid = Process.spawn 'rake environment resque:work'
-      Rake::Task['resque:scheduler'].invoke
+      Rake::Task['environment resque:scheduler'].invoke
       Process.wait(pid)
     end
   end
