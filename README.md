@@ -66,3 +66,8 @@ creating the following settings file:
 RESQUE_WEB_HTTP_BASIC_AUTH_USER: 'YOUR USERNAME'
 RESQUE_WEB_HTTP_BASIC_AUTH_PASSWORD: 'YOUR PASSWORD'
 ```
+
+## Heroku deployment
+
+The application is ready for deployment on the Heroku. The working version of the project can be viewed at 
+[Heroku website](https://cuurjol-leramiz.herokuapp.com/).
