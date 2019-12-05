@@ -61,8 +61,13 @@ Also the application has an access to the page `http://localhost:3000/resque_web
 creating the following settings file:
 
 ```
-# config/resque_env/yml
+# config/resque_env.yml
 
 RESQUE_WEB_HTTP_BASIC_AUTH_USER: 'YOUR USERNAME'
 RESQUE_WEB_HTTP_BASIC_AUTH_PASSWORD: 'YOUR PASSWORD'
 ```
+
+## Heroku deployment
+
+The application is ready for deployment on the Heroku. The working version of the project can be viewed at 
+[Heroku website](https://cuurjol-leramiz.herokuapp.com/).
