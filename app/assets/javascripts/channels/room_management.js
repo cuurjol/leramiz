@@ -19,7 +19,7 @@ App.room_management = App.cable.subscriptions.create("RoomManagementChannel", {
       rooms_list = $(rooms_list.selector);
     }
 
-    if (data['status'] === 'created') {
+    if (data['room']['status'] === 'created') {
       html_code = `
         <li data-room-id="${data['room']['id']}">
             <b>Room #${data['room']['id']}</b> — <a href="/rooms/${data['room']['token']}" data-turbolinks="false">Join</a>
@@ -29,7 +29,6 @@ App.room_management = App.cable.subscriptions.create("RoomManagementChannel", {
       rooms_list.append(html_code);
     } else {
       $(`li[data-room-id='${data['room']['id']}']`).remove();
-      $(`.room-users-list[data-room-id='${data['room']['id']}']`).remove();
 
       if (rooms_list.children().length === 0) {
         rooms_list.closest('.col-md-6').remove();

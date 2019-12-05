@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_17_135305) do
+ActiveRecord::Schema.define(version: 2019_12_05_182537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2019_11_17_135305) do
     t.string "password"
     t.boolean "is_private", default: false
     t.bigint "user_id"
+    t.integer "status", default: 0, null: false
     t.index ["user_id"], name: "index_rooms_on_user_id"
   end
 

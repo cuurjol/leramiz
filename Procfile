@@ -1,1 +1,1 @@
-worker: RESQUE_SCHEDULER_INTERVAL=1 INTERVAL=1 QUEUE=leramiz* COUNT=1 TERM_CHILD=1 RESQUE_TERM_TIMEOUT=10 bundle exec rake resque:schedule_and_work
+worker: RESQUE_SCHEDULER_INTERVAL=0.5 INTERVAL=0.5 QUEUE=leramiz* COUNT=1 TERM_CHILD=1 RESQUE_TERM_TIMEOUT=10 bundle exec rake resque:schedule_and_work

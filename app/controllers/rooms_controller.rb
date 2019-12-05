@@ -6,7 +6,7 @@ class RoomsController < ApplicationController
       Rails.cache.write("message_for_user:#{current_user.id}", nil)
     end
 
-    @rooms = Room.includes(:users)
+    @rooms = Room.includes(:users).where(status: 'created')
   end
 
   def show
@@ -20,8 +20,7 @@ class RoomsController < ApplicationController
     if @room.save
       DestroyPrivateRoomJob.set(wait: @room.expiration.minutes).perform_later(@room) if @room.is_private?
 
-      ActionCable.server.broadcast('room_management_channel', room: @room.as_json(only: %i[id is_private token]),
-                                                              status: 'created')
+      ActionCable.server.broadcast('room_management_channel', room: @room.as_json(only: %i[id is_private token status]))
 
       redirect_to(@room, notice: 'Room was successfully created')
     else
